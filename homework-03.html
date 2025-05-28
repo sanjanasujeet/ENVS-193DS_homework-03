@@ -364,6 +364,8 @@ library(gt)
 library(dplyr)
 library(ggplot2)</code></pre>
 <p><strong>GitHub Repository:</strong> <a href="https://github.com/sanjanasujeet/ENVS-193DS_workshop-07">https://github.com/sanjanasujeet/ENVS-193DS_workshop-07</a></p>
+<div id="personal-data" class="section level1">
+<h1>1. Personal Data</h1>
 <div id="a.-data-summarizing" class="section level2">
 <h2>1A. Data Summarizing</h2>
 <p>My data tracked hours I read, pages I read, and social hours per day
@@ -478,7 +480,7 @@ pace and consistency but the large range of pace during low stress days
 <h2>1D. Table Presentation</h2>
 <pre class="r"><code># Summarize stats of reading pace by stress level
 summary_table &lt;- data_clean %&gt;%
-  filter(!is.na(stress_level), pace != 0) %&gt;%
+  filter(pace != 0) %&gt;%
   group_by(stress_level) %&gt;%
   summarise(
     Min = round(min(pages_read), 1),
@@ -497,22 +499,21 @@ summary_table %&gt;%
     Q1 = &quot;1st Quartile&quot;,
     Median = &quot;Median&quot;,
     Q3 = &quot;3rd Quartile&quot;,
-    Max= &quot;Maximum&quot;
-  )</code></pre>
-<div id="jsrtqtqyse" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jsrtqtqyse table {
+    Max= &quot;Maximum&quot;)</code></pre>
+<div id="fynvzzjovq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fynvzzjovq table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#jsrtqtqyse thead, #jsrtqtqyse tbody, #jsrtqtqyse tfoot, #jsrtqtqyse tr, #jsrtqtqyse td, #jsrtqtqyse th {
+#fynvzzjovq thead, #fynvzzjovq tbody, #fynvzzjovq tfoot, #fynvzzjovq tr, #fynvzzjovq td, #fynvzzjovq th {
 border-style: none;
 }
-#jsrtqtqyse p {
+#fynvzzjovq p {
 margin: 0;
 padding: 0;
 }
-#jsrtqtqyse .gt_table {
+#fynvzzjovq .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -537,11 +538,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_caption {
+#fynvzzjovq .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#jsrtqtqyse .gt_title {
+#fynvzzjovq .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -552,7 +553,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#jsrtqtqyse .gt_subtitle {
+#fynvzzjovq .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -563,7 +564,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#jsrtqtqyse .gt_heading {
+#fynvzzjovq .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -574,12 +575,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_bottom_border {
+#fynvzzjovq .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_col_headings {
+#fynvzzjovq .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -593,7 +594,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_col_heading {
+#fynvzzjovq .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -612,7 +613,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#jsrtqtqyse .gt_column_spanner_outer {
+#fynvzzjovq .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -623,13 +624,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#jsrtqtqyse .gt_column_spanner_outer:first-child {
+#fynvzzjovq .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#jsrtqtqyse .gt_column_spanner_outer:last-child {
+#fynvzzjovq .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#jsrtqtqyse .gt_column_spanner {
+#fynvzzjovq .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -640,10 +641,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#jsrtqtqyse .gt_spanner_row {
+#fynvzzjovq .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#jsrtqtqyse .gt_group_heading {
+#fynvzzjovq .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -668,7 +669,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#jsrtqtqyse .gt_empty_group_heading {
+#fynvzzjovq .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -682,13 +683,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#jsrtqtqyse .gt_from_md > :first-child {
+#fynvzzjovq .gt_from_md > :first-child {
 margin-top: 0;
 }
-#jsrtqtqyse .gt_from_md > :last-child {
+#fynvzzjovq .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#jsrtqtqyse .gt_row {
+#fynvzzjovq .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -706,7 +707,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#jsrtqtqyse .gt_stub {
+#fynvzzjovq .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -718,7 +719,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#jsrtqtqyse .gt_stub_row_group {
+#fynvzzjovq .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -731,13 +732,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#jsrtqtqyse .gt_row_group_first td {
+#fynvzzjovq .gt_row_group_first td {
 border-top-width: 2px;
 }
-#jsrtqtqyse .gt_row_group_first th {
+#fynvzzjovq .gt_row_group_first th {
 border-top-width: 2px;
 }
-#jsrtqtqyse .gt_summary_row {
+#fynvzzjovq .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -746,14 +747,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#jsrtqtqyse .gt_first_summary_row {
+#fynvzzjovq .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_first_summary_row.thick {
+#fynvzzjovq .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#jsrtqtqyse .gt_last_summary_row {
+#fynvzzjovq .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -762,7 +763,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_grand_summary_row {
+#fynvzzjovq .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -771,7 +772,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#jsrtqtqyse .gt_first_grand_summary_row {
+#fynvzzjovq .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -780,7 +781,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_last_grand_summary_row_top {
+#fynvzzjovq .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -789,10 +790,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_striped {
+#fynvzzjovq .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#jsrtqtqyse .gt_table_body {
+#fynvzzjovq .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -800,7 +801,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_footnotes {
+#fynvzzjovq .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -813,7 +814,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_footnote {
+#fynvzzjovq .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -821,7 +822,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#jsrtqtqyse .gt_sourcenotes {
+#fynvzzjovq .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -834,64 +835,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#jsrtqtqyse .gt_sourcenote {
+#fynvzzjovq .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#jsrtqtqyse .gt_left {
+#fynvzzjovq .gt_left {
 text-align: left;
 }
-#jsrtqtqyse .gt_center {
+#fynvzzjovq .gt_center {
 text-align: center;
 }
-#jsrtqtqyse .gt_right {
+#fynvzzjovq .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#jsrtqtqyse .gt_font_normal {
+#fynvzzjovq .gt_font_normal {
 font-weight: normal;
 }
-#jsrtqtqyse .gt_font_bold {
+#fynvzzjovq .gt_font_bold {
 font-weight: bold;
 }
-#jsrtqtqyse .gt_font_italic {
+#fynvzzjovq .gt_font_italic {
 font-style: italic;
 }
-#jsrtqtqyse .gt_super {
+#fynvzzjovq .gt_super {
 font-size: 65%;
 }
-#jsrtqtqyse .gt_footnote_marks {
+#fynvzzjovq .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#jsrtqtqyse .gt_asterisk {
+#fynvzzjovq .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#jsrtqtqyse .gt_indent_1 {
+#fynvzzjovq .gt_indent_1 {
 text-indent: 5px;
 }
-#jsrtqtqyse .gt_indent_2 {
+#fynvzzjovq .gt_indent_2 {
 text-indent: 10px;
 }
-#jsrtqtqyse .gt_indent_3 {
+#fynvzzjovq .gt_indent_3 {
 text-indent: 15px;
 }
-#jsrtqtqyse .gt_indent_4 {
+#fynvzzjovq .gt_indent_4 {
 text-indent: 20px;
 }
-#jsrtqtqyse .gt_indent_5 {
+#fynvzzjovq .gt_indent_5 {
 text-indent: 25px;
 }
-#jsrtqtqyse .katex-display {
+#fynvzzjovq .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#jsrtqtqyse div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fynvzzjovq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -933,6 +934,47 @@ height: 0px !important;
   
   
 </table>
+</div>
+</div>
+</div>
+<div id="affective-visualization" class="section level1">
+<h1>2. Affective Visualization</h1>
+<div id="a.-describe-in-words-what-an-affective-visualization-could-look-like-for-your-personal-data" class="section level2">
+<h2>2A. Describe in words what an affective visualization could look
+like for your personal data</h2>
+<p>I could create a calendar with books instead of regular squares and
+they are colored in by stress level with a number of the pace on each
+book. I can add in notes in little bubbles connected to the books like
+bookmarks for the days I wrote observations like ‘re-read the same page
+3 times’ or ‘sped through this.’</p>
+</div>
+<div id="b.-sketch" class="section level2">
+<h2>2B. Sketch</h2>
+</div>
+<div id="c.-visualization-draft" class="section level2">
+<h2>2C. Visualization Draft</h2>
+</div>
+<div id="d.-artist-statement" class="section level2">
+<h2>2D. Artist Statement</h2>
+<p>This piece visualizes my personal reading pace across days of with
+stress levels. Each book icon represents a day I read, color-coded by
+stress level(green-low, blue- medium, coral- high) and labeled with how
+many pages I read per hour.</p>
+<p>I was inspired by my life’s saviour: google calender, and bullet
+journal youtube creators like Erin Smith and KB Journals. I track
+everything in my life down to the minute with my google calendar and I
+love how easy it is to just look at the page and know a lot of
+information through color coding, time blocks, and writing. But before I
+used gcal, I used bullet journals and the idea of using books as
+calendar units came from an old bullet journal spread I had in middle
+school, where I tracked which books I read which days(back when I read
+multiple books in a week.)</p>
+<p>The final piece is a digital hand-drawn calendar with color codes and
+written info made through Procreate.</p>
+<p>I started with a template of books in a grid like a calendar and use
+the google sheet I made to add colors and pace to each book. Then using
+the Notes column I input short sentences about my qualitative
+observations and tried to make them look like bookmarks.</p>
 </div>
 </div>
 

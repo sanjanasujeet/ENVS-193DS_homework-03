@@ -18,6 +18,7 @@ library(ggplot2)
 
 **GitHub Repository:** [https://github.com/sanjanasujeet/ENVS-193DS_workshop-07](https://github.com/sanjanasujeet/ENVS-193DS_workshop-07)
 
+# 1. Personal Data
 ## 1A. Data Summarizing
 
 My data tracked hours I read, pages I read, and social hours per day as my response variables and stress level as my predictor variable. I don't think I will analyze all these variables but the main thing that I want to look at is how stress levels affect my reading.  
@@ -122,7 +123,7 @@ This boxplot shows the distribution of reading pace, measured in pages per hour,
 ```{r}
 # Summarize stats of reading pace by stress level
 summary_table <- data_clean %>%
-  filter(!is.na(stress_level), pace != 0) %>%
+  filter(pace != 0) %>%
   group_by(stress_level) %>%
   summarise(
     Min = round(min(pages_read), 1),
@@ -141,8 +142,35 @@ summary_table %>%
     Q1 = "1st Quartile",
     Median = "Median",
     Q3 = "3rd Quartile",
-    Max= "Maximum"
-  )
+    Max= "Maximum")
 
 ```
+
+# 2. Affective Visualization
+## 2A. Describe in words what an affective visualization could look like for your personal data
+
+I could create a calendar with books instead of regular squares and they are colored in by stress level with a number of the pace on each book. I can add in notes in little bubbles connected to the books like bookmarks for the days I wrote observations like 're-read the same page 3 times' or 'sped through this.'
+
+## 2B. Sketch
+
+## 2C. Visualization Draft
+
+## 2D. Artist Statement
+
+This piece visualizes my personal reading pace across days of with stress levels. Each book icon represents a day I read, color-coded by stress level(green-low, blue- medium, coral- high) and labeled with how many pages I read per hour.
+
+I was inspired by my life's saviour: google calender, and bullet journal youtube creators like Erin Smith and KB Journals. I track everything in my life down to the minute with my google calendar and I love how easy it is to just look at the page and know a lot of information through color coding, time blocks, and writing. But before I used gcal, I used bullet journals and the idea of using books as calendar units came from an old bullet journal spread I had in middle school, where I tracked which books I read which days(back when I read multiple books in a week.)
+
+The final piece is a digital hand-drawn calendar with color codes and written info made through Procreate.
+
+I started with a template of books in a grid like a calendar and use the google sheet I made to add colors and pace to each book. Then using the Notes column I input short sentences about my qualitative observations and tried to make them look like bookmarks. 
+
+
+
+
+
+
+
+
+
 
