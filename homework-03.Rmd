@@ -1,0 +1,16 @@
+---
+title: "homework_03"
+author: "Sanjana Sujeet"
+date: "2025-05-28"
+output: html_document
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+library(janitor)
+library(here)
+library(gt)
+```
+
+
+**GitHub Repository:** [https://github.com/sanjanasujeet/ENVS-193DS_workshop-07](https://github.com/sanjanasujeet/ENVS-193DS_workshop-07)
