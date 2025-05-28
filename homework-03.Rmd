@@ -2,8 +2,8 @@
 title: "homework_03"
 author: "Sanjana Sujeet"
 date: "2025-05-28"
-#output: html_document
-format: docx
+output: html_document
+#format: docx
 ---
 
 ```{r setup, message=FALSE}
@@ -18,7 +18,7 @@ library(ggplot2)
 
 **GitHub Repository:** [https://github.com/sanjanasujeet/ENVS-193DS_workshop-07](https://github.com/sanjanasujeet/ENVS-193DS_workshop-07)
 
-## a. Data Summarizing
+## 1A. Data Summarizing
 
 My data tracked hours I read, pages I read, and social hours per day as my response variables and stress level as my predictor variable. I don't think I will analyze all these variables but the main thing that I want to look at is how stress levels affect my reading.  
 
@@ -26,9 +26,9 @@ I will compare the number of hours I read per day to my quantified daily stress 
 
 To summarize my data, I could calculate the mean number of pages I read per day across different stress levels ( low, medium, high stress). I could also compare the average reading pace between these groups to see if stress impacts not just how much I read, but how fast I read. Comparing means within stress levels is informative because it is a simple way to see if there is a difference between how different stress levels affect me. I may read less efficiently when I feel overwhelmed, or I may read more when trying to avoid stress through a calming activity.
 
-## b. Visualization and c. Caption
+#### ignore-cleaning data
+
 ```{r}
-## cleaning data
 data<- read.csv("data/springtracking2.csv") #read in data
 data_clean<-clean_names(data) #cleaning column names
 data_clean <- data_clean |> 
@@ -47,6 +47,8 @@ data_clean <- data_clean %>%
   mutate(stress_level = factor(stress_level, levels = c("low", "medium", "high"))) # orders the levels
 
 ```
+
+#### ignore-preliminary graphs
 
 ```{r, message=FALSE}
 #graphing
@@ -95,8 +97,10 @@ ggplot(data_clean %>%
 
 ```
 
+## 1B. Visualization
+
 ```{r}
-ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pace)),
+ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pace), pace != 0),
        aes(x = stress_level, y = pace, fill = stress_level)) +
   geom_boxplot() +
   scale_fill_manual(values = c("low" = "rosybrown1", "medium" = "salmon", "high" = "indianred4")) +
@@ -109,3 +113,7 @@ ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pace)),
   theme(legend.position = "none")
 ```
 
+## 1C. Caption
+**Figure: Reading Pace by Stress Level (Excluding Days with No Reading)**
+
+This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. During days of low stress levels there is high variability and highest median pace; days of high stress consistently read fewer pages per hour than medium stress level days with a more compressed range. The trend suggests that increased stress might negatively affect reading pace and consistency but the large range of pace during low stress days .
