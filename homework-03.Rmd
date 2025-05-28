@@ -2,7 +2,8 @@
 title: "homework_03"
 author: "Sanjana Sujeet"
 date: "2025-05-28"
-output: html_document
+#output: html_document
+format: docx
 ---
 
 ```{r setup, message=FALSE}
@@ -10,6 +11,8 @@ library(tidyverse)
 library(janitor)
 library(here)
 library(gt)
+library(dplyr)
+library(ggplot2)
 ```
 
 
@@ -21,9 +24,88 @@ My data tracked hours I read, pages I read, and social hours per day as my respo
 
 I will compare the number of hours I read per day to my quantified daily stress level, which I calculated based on the number of upcoming assignments and tests, as well as my perceived stress. I also want to calculate my reading pace by dividing pages read by minutes reading and compare this to my stress level to see if stress influences the pace that I read.
 
-To summarize my data, I could calculate the mean number of hours I read per day across different stress levels ( low, medium, high stress). I could also compare the average reading pace between these groups to see if stress impacts not just how much I read, but how fast I read. Comparing means within stress levels is informative because it is a simple way to see if there is a difference between how different stress levels affect me. I may read less efficiently when I feel overwhelmed, or I may read more when trying to avoid stress through a calming activity.
+To summarize my data, I could calculate the mean number of pages I read per day across different stress levels ( low, medium, high stress). I could also compare the average reading pace between these groups to see if stress impacts not just how much I read, but how fast I read. Comparing means within stress levels is informative because it is a simple way to see if there is a difference between how different stress levels affect me. I may read less efficiently when I feel overwhelmed, or I may read more when trying to avoid stress through a calming activity.
 
+## b. Visualization and c. Caption
+```{r}
+## cleaning data
+data<- read.csv("data/springtracking2.csv") #read in data
+data_clean<-clean_names(data) #cleaning column names
+data_clean <- data_clean |> 
+  rename(hours = hours_of_activity) #shortens name cuz i think i will be using it often
+data_clean <- data_clean |> 
+  mutate(pace = pages_read / hours) #creates new column pace which is pages/min
+data_clean <- data_clean %>%
+  mutate(pace = replace(pace, is.nan(pace), 0))# removes NaN and makes them 0 instead(this was a calculation issue)
+data_clean <- data_clean %>%
+  mutate(stress_level = case_when(
+    quantified_stress >= 0 & quantified_stress <= 9  ~ "low",
+    quantified_stress >= 10 & quantified_stress <= 19 ~ "medium",
+    quantified_stress >= 20 ~ "high")) # creates new column called stress_level and takes quantified stress levels and makes 3 levels out of it
 
+data_clean <- data_clean %>%
+  mutate(stress_level = factor(stress_level, levels = c("low", "medium", "high"))) # orders the levels
 
+```
 
+```{r, message=FALSE}
+#graphing
+
+ggplot(data_clean %>% 
+         filter(!is.na(quantified_stress), !is.na(pages_read)),
+       aes(x = quantified_stress, y = pages_read)) +
+  geom_point(color = "cyan4", alpha = 0.7, size = 2) +
+  geom_smooth(method = "lm", color = "royalblue", se = TRUE) +
+  labs(
+    title = "Pages Read vs. Quantified Stress",
+    x = "Quantified Stress",
+    y = "Pages Read"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pages_read)),
+       aes(x = stress_level, y = pages_read, fill = stress_level)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("low" = "lightblue", "medium" = "cadetblue", "high" = "cyan4")) +
+  labs(
+    title = "Pages Read by Stress Level",
+    x = "Stress Level",
+    y = "Pages Read"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+```{r, message=FALSE}
+ggplot(data_clean %>% 
+         filter(!is.na(quantified_stress), !is.na(pace), pace != 0),
+       aes(x = quantified_stress, y = pages_read)) +
+  geom_point(color = "salmon", alpha = 0.7, size = 2) +
+  geom_smooth(method = "lm", color = "darkred", se = TRUE) +
+  labs(
+    title = "Pace vs. Quantified Stress (Excluding no reading days)",
+    x = "Quantified Stress",
+    y = "Pace(pages per hour)"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pace)),
+       aes(x = stress_level, y = pace, fill = stress_level)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("low" = "rosybrown1", "medium" = "salmon", "high" = "indianred4")) +
+  labs(
+    title = "Pages Read by Stress Level (Excluding no reading days)",
+    x = "Stress Level",
+    y = "Pace(Pages per Hour)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
 
