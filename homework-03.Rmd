@@ -105,7 +105,7 @@ ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pace), pace != 0),
   geom_boxplot() +
   scale_fill_manual(values = c("low" = "rosybrown1", "medium" = "salmon", "high" = "indianred4")) +
   labs(
-    title = "Pages Read by Stress Level (Excluding no reading days)",
+    title = "Reading Pace by Stress Level (Excluding no reading days)",
     x = "Stress Level",
     y = "Pace(Pages per Hour)"
   ) +
@@ -117,3 +117,32 @@ ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pace), pace != 0),
 **Figure: Reading Pace by Stress Level (Excluding Days with No Reading)**
 
 This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. During days of low stress levels there is high variability and highest median pace; days of high stress consistently read fewer pages per hour than medium stress level days with a more compressed range. The trend suggests that increased stress might negatively affect reading pace and consistency but the large range of pace during low stress days .
+
+## 1D. Table Presentation
+```{r}
+# Summarize stats of reading pace by stress level
+summary_table <- data_clean %>%
+  filter(!is.na(stress_level), pace != 0) %>%
+  group_by(stress_level) %>%
+  summarise(
+    Min = round(min(pages_read), 1),
+    Q1 = round(quantile(pace, 0.25), 1),
+    Median = round(median(pace), 1),
+    Q3 = round(quantile(pace, 0.75), 1),
+    Max = round(max(pages_read), 1)  ) %>%
+  arrange(factor(stress_level, levels = c("low", "medium", "high")))
+#create gt table
+summary_table %>%
+  gt() %>%
+  tab_header(title = "Distribution of Reading Pace by Stress Level") %>%
+  cols_label(
+    stress_level = "Stress Level",
+    Min= "Minimum",
+    Q1 = "1st Quartile",
+    Median = "Median",
+    Q3 = "3rd Quartile",
+    Max= "Maximum"
+  )
+
+```
+
