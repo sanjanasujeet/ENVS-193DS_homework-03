@@ -2,7 +2,8 @@
 title: "homework_03"
 author: "Sanjana Sujeet"
 date: "2025-05-28"
-output: html_document
+format: html
+#output: html_document
 ---
 
 ```{r setup, message=FALSE}
@@ -21,13 +22,13 @@ library(tinytex)
 # 1. Personal Data
 ## 1A. Data Summarizing
 
-My data tracked hours I read, pages I read, and social hours per day as my response variables and stress level as my predictor variable; the main thing that I want to look at is how stress levels affect my reading.  
+The main thing that I want to look at from my data is how stress levels affect my reading.  
 
-I will calculate my reading pace by dividing pages read by hours reading and compare this to my quantified daily stress level, which I calculated based on the number of upcoming assignments and tests as well as my perceived stress, to see if stress influences the pace that I read.
+I will analyze my reading pace by dividing pages read by hours reading and compare this to my quantified daily stress level, which I calculated based on the number of upcoming assignments and tests as well as my perceived stress, to see if stress influences the pace that I read.
 
-To summarize my data, I could calculate the reading pace across different stress levels (low, medium, high stress) to see if stress impacts not how much I read, but how fast I read. Comparing means within stress levels is informative because it is a simple way to see if there is a difference between how different stress levels affect me. I may read less efficiently when I feel overwhelmed, or I may quicker when trying to avoid stress through a calming activity.
+To summarize my data, I will calculate the median and range reading pace across different stress levels (low, medium, high stress) to see if stress impacts not just how fast I read within these stress levels, but also how much variation there is. Comparing medians and range through boxplots within stress levels is informative because it is a simple way to see if there is a difference between how different stress levels affect me and how consistently they affect me. I may read less efficiently when I feel overwhelmed, or I may quicker when trying to avoid stress through a calming activity; I may consistently read faster in low stress levels or .
 
-#### ignore-cleaning data
+#### cleaning data
 
 ```{r}
 data<- read.csv("data/springtracking2.csv") #read in data
@@ -49,10 +50,9 @@ data_clean <- data_clean %>%
 
 ```
 
-#### ignore-preliminary graphs
 
 ```{r, message=FALSE, echo=FALSE, eval= FALSE}
-#graphing
+#preliminary graphing
 
 ggplot(data_clean %>% 
          filter(!is.na(quantified_stress), !is.na(pages_read)),
@@ -83,7 +83,7 @@ ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pages_read)),
 
 ```
 
-```{r, message=FALSE}
+```{r, message=FALSE, echo=FALSE, eval= FALSE}
 ggplot(data_clean %>% 
          filter(!is.na(quantified_stress), !is.na(pace), pace != 0),
        aes(x = quantified_stress, y = pages_read)) +
