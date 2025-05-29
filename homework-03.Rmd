@@ -13,7 +13,7 @@ library(here)
 library(gt)
 library(dplyr)
 library(ggplot2)
-library(tinytex)
+library(magick)
 ```
 
 
@@ -104,7 +104,9 @@ ggplot(data_clean %>%
 ggplot(data_clean |> filter(pace != 0),#removes anywhere pace is 0(meaning i didnt read that day)
        aes(x = stress_level, y = pace, fill = stress_level)) +#sets x and y and colors based on stress level
   geom_boxplot() +#makes boxplot
-  scale_fill_manual(values = c("low" = "turquoise", "medium" = "#FFFF66", "high" = "coral")) +#manually inputs colors
+  geom_jitter(width = 0.1, height = 0, size = 2)+#adds underlying data points
+  stat_summary(fun = mean, geom = "point", size = 3, color = "red")+#adds mean as a red dot
+  scale_fill_manual(values = c("low" = "lightgreen", "medium" = "#FFFF66", "high" = "coral")) +#manually inputs colors
   labs(
     title = "Reading Pace by Stress Level (Excluding no reading days)", #title
     x = "Stress Level", #xaxis
@@ -117,32 +119,34 @@ ggplot(data_clean |> filter(pace != 0),#removes anywhere pace is 0(meaning i did
 ## 1C. Caption
 **Figure: Reading Pace by Stress Level (Excluding Days with No Reading)**
 
-This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. The stress levels are distinguished on the x axis and by color with turquoise on the low stress level box plot, yellow on the medium stress level, and coral on the high stress level. The bold black line inside the box represents the group's median and just by looking at medians, there is a correlation between higher pace and lower stress levels. However, then looking at the rest of the box, with the top and bottom representing the 1st and 3rd quartiles and the whiskers representing minimum and maximum, there is too much overlap between groups to draw significant conclusions just from the graph. The range, or height of the box, shows us that during days of low stress levels there is high variability but days of high stress have a more compressed range and consistently read fewer pages per hour than medium stress level days. 
+This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. The stress levels are distinguished on the x axis and by color with light green on the low stress level box plot, yellow on the medium stress level, and coral on the high stress level. The bold black line inside the box represents the group's median and just by looking at medians, there is a correlation between higher pace and lower stress levels. However, then looking at the rest of the box, with the top and bottom representing the 1st and 3rd quartiles and the whiskers representing minimum and maximum, there is too much overlap between groups to draw significant conclusions just from the graph. The black points on and around the box and whisker plots represent individual daily pace data and the large vertical range of the points show that the data is too spread out to draw conclusions. The larger red dot represents the mean which is relatively close to the median but one difference is that the low stress mean is less than the medium stress mean, unlike their corresponding medians. The range, or height of the box, shows us that during days of low stress levels there is high variability but days of high stress have a more compressed range and consistently read fewer pages per hour than medium stress level days. 
 
 ## 1D. Table Presentation
 ```{r}
 # Summarize stats of reading pace by stress level
 summary_table <- data_clean %>%
-  filter(pace != 0) %>%
-  group_by(stress_level) %>%
+  filter(pace != 0) %>% #removes days i didnt read
+  group_by(stress_level) %>% #groups by low medium high stress
   summarise(
-    Min = round(min(pages_read), 1),
-    Q1 = round(quantile(pace, 0.25), 1),
-    Median = round(median(pace), 1),
-    Q3 = round(quantile(pace, 0.75), 1),
-    Max = round(max(pages_read), 1)  ) %>%
-  arrange(factor(stress_level, levels = c("low", "medium", "high")))
+    Min = round(min(pace)), # minimum of pace
+    Q1 = round(quantile(pace, 0.25)), # 1st wuartile of pace
+    Median = round(median(pace)), # median of pace
+    Q3 = round(quantile(pace, 0.75)), #3rd quartile of pace
+    Max = round(max(pace)), # maximum of pace
+    Mean = mean(pace, 1)) %>% #mean of pace rounded so its not a long decimal
+  arrange(factor(stress_level, levels = c("low", "medium", "high"))) #orders the levels
 #create gt table
 summary_table %>%
-  gt() %>%
-  tab_header(title = "Distribution of Reading Pace by Stress Level") %>%
+  gt() %>% #uses gt library
+  tab_header(title = "Distribution of Reading Pace by Stress Level") %>% #heading of the table
   cols_label(
     stress_level = "Stress Level",
     Min= "Minimum",
     Q1 = "1st Quartile",
     Median = "Median",
     Q3 = "3rd Quartile",
-    Max= "Maximum")
+    Max= "Maximum",
+    Mean = "Mean") #column names
 
 ```
 
@@ -152,25 +156,46 @@ summary_table %>%
 I could create a calendar with books instead of regular squares and they are colored in by stress level with a number of the pace on each book. I can add in notes in little bubbles connected to the books like bookmarks for the days I wrote observations like 're-read the same page 3 times' or 'sped through this.'
 
 ## 2B. Sketch
+```{r, message=FALSE, echo=FALSE}
+image<- image_read("/Users/sanjana/Desktop/ENVS-193DS/ENVS-193DS_homework-03/sketch.jpg")
+grid::grid.raster(image)
+```
+
 
 ## 2C. Visualization Draft
 
+```{r}
+image2<- image_read("/Users/sanjana/Desktop/ENVS-193DS/ENVS-193DS_homework-03/book_calendar.jpg")
+grid::grid.raster(image2)
+```
+
 ## 2D. Artist Statement
 
-This piece visualizes my personal reading pace across days of with stress levels. Each book icon represents a day I read, color-coded by stress level(green-low, blue- medium, coral- high) and labeled with how many pages I read per hour.
+This piece visualizes my personal reading pace across days of with stress levels. Each book icon represents a day I read, color-coded by stress level(green-low, yellow- medium, coral- high) and labeled with how many pages I read per hour.
 
-I was inspired by my life's saviour: google calender, and bullet journal youtube creators like Erin Smith and KB Journals. I track everything in my life down to the minute with my google calendar and I love how easy it is to just look at the page and know a lot of information through color coding, time blocks, and writing. But before I used gcal, I used bullet journals and the idea of using books as calendar units came from an old bullet journal spread I had in middle school, where I tracked which books I read which days(back when I read multiple books in a week.)
+I was inspired by my life's saviour: google calender, and bullet journal youtube creators like Erin Smith and KB Journals. I track everything in my life down to the minute with my google calendar and I love how easy it is to just look at the page and know a lot of information through color coding, time blocks, and writing. But before I used gcal, I used bullet journals and the idea of using books as calendar units came from an old bullet journal spread I had in middle school, where I tracked which books I read which days(back when I read multiple books in a week)
 
 The final piece is a digital hand-drawn calendar with color codes and written info made through Procreate.
 
 I started with a template of books in a grid like a calendar and use the google sheet I made to add colors and pace to each book. Then using the Notes column I input short sentences about my qualitative observations and tried to make them look like bookmarks. 
 
+# 3 Statistical Critique
+## 3A. Revisit 
+A two way ANOVA test is used in this study to assess differences in total number of microplastics
+collected in low and high intertidal zones for spatial variability analysis and a repeated measures ANOVA test is used to asses temporal variabiity through differences in consecutive sampling events.
+
+```{r}
+image3<- image_read("/Users/sanjana/Desktop/ENVS-193DS/ENVS-193DS_homework-03/stat_critique.png")
+grid::grid.raster(image3)
+```
 
 
+## 3B. Visual Clarity
 
+The authors of this paper did represent their statistics clearly and appropriately through these figures. The axis makes sense in how they were named and where they were placed; the X axis values are tilted so they do not overlap. The first panel's X- axis has T1, T2, T3 to represent their transects and the second panel has sampling dates with time details (AM/PM). The Y axis in both are clearly labeled Microplastics/m² ± SE which gives infomration on how what units the data was measured with and that standard error bars are present. The bar height shows the means of microplastic abundance and the error bars using SE show variability and uncertainty around these means. There are patterning differences to differentiate low and high intertidal zones and a legend to interpret these patterns. The only issue with this plot is that the underlying data isn't shown. It should have been represented with raw data scatter points to correctly assess the distribution, sample size, outliers, etc to fully inform the reader. Another thing missing is there is no model prediction or fit even though ANOVA results are in the caption. 
 
+## 3C. Aesthetic clarity
+All the necessary elements like error bars, legends, labels, etc are included. There are no gridlines or unnecessary borders which reduces clutter and supports a good ink to data ratio. The labels and tick marks are not overcrowded and there was effort to make sure that they are readable but not redundant. The colors(grey) and patterns are consistent across both panels. There are patterning differences to differentiate low and high intertidal zones and a legend to interpret these patterns. 
 
-
-
-
-
+## 3D. Recommendations
+I would add underlying data jitter points on the graph to be transparent about sample size, variation/spread, outliers, etc. I would also use different contrasting colors rather than just different patterns to differentiate low and high intertidal zones because this is easier to see than grey patterns. I would also include p-values somewhere on the graph because readers should be able to quickly see key results and significance without reading the caption. I could also add sample size information somewhere on the group observations because while error bars are present, they depend on sample size and this graph doesnt show that context. I wouldnt remove anything from the graphs. 
