@@ -7,6 +7,8 @@ You can find my assignment at this [link](https://sanjanasujeet.github.io/ENVS-1
 # General Information
 This assignment was completed during Spring Quarter at UCSB, on May 28, 2025 for ENVS 193DS- Statistics for Environmental Science by Sanjana Sujeet.
 These are the packages I used: 
+
+```
 library(tidyverse)
 library(janitor)
 library(here)
@@ -14,6 +16,7 @@ library(gt)
 library(dplyr)
 library(ggplot2)
 library(magick)
+```
 
 # Data and File info
 All data was collected by Sanjana Sujeet throughout the quarter and is located in the data folder. The data measures how many hours and pages I read each day and stress levels each day calculated from assignments, tests, and perceived stress. 
