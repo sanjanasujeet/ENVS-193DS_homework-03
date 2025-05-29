@@ -22,11 +22,11 @@ library(tinytex)
 # 1. Personal Data
 ## 1A. Data Summarizing
 
-The main thing that I want to look at from my data is how stress levels affect my reading.  
+The main thing that I want to look at from my data is how stress levels affect the pace of my reading.  
 
-I will analyze my reading pace by dividing pages read by hours reading and compare this to my quantified daily stress level, which I calculated based on the number of upcoming assignments and tests as well as my perceived stress, to see if stress influences the pace that I read.
+I will analyze my reading pace by dividing 'pages read' by 'hours reading' and compare this to 'quantified daily stress level', which I calculated based on the number of upcoming assignments and tests as well as my perceived stress, to see if stress influences the pace that I read.
 
-To summarize my data, I will calculate the median and range reading pace across different stress levels (low, medium, high stress) to see if stress impacts not just how fast I read within these stress levels, but also how much variation there is. Comparing medians and range through boxplots within stress levels is informative because it is a simple way to see if there is a difference between how different stress levels affect me and how consistently they affect me. I may read less efficiently when I feel overwhelmed, or I may quicker when trying to avoid stress through a calming activity; I may consistently read faster in low stress levels or .
+To summarize my data, I will calculate the median and range of my reading pace across different stress levels (low, medium, high stress) to see if stress impacts not just how fast I read within these stress levels, but also how much variation there is. Comparing medians and range through boxplots within stress levels is informative because it is a simple way to visualize if there is a difference between how different stress levels affect me and how consistently they affect me. I may read less efficiently when I feel overwhelmed, or I may read quicker when trying to avoid stress through a calming activity. I may consistently read faster in high stress levels or it could fluctuate more in higher stress levels. Median and Range could answer these questions.
 
 #### cleaning data
 
@@ -101,23 +101,23 @@ ggplot(data_clean %>%
 ## 1B. Visualization
 
 ```{r}
-ggplot(data_clean |> filter(!is.na(stress_level), !is.na(pace), pace != 0),
-       aes(x = stress_level, y = pace, fill = stress_level)) +
-  geom_boxplot() +
-  scale_fill_manual(values = c("low" = "rosybrown1", "medium" = "salmon", "high" = "indianred4")) +
+ggplot(data_clean |> filter(pace != 0),#removes anywhere pace is 0(meaning i didnt read that day)
+       aes(x = stress_level, y = pace, fill = stress_level)) +#sets x and y and colors based on stress level
+  geom_boxplot() +#makes boxplot
+  scale_fill_manual(values = c("low" = "turquoise", "medium" = "#FFFF66", "high" = "coral")) +#manually inputs colors
   labs(
-    title = "Reading Pace by Stress Level (Excluding no reading days)",
-    x = "Stress Level",
-    y = "Pace(Pages per Hour)"
+    title = "Reading Pace by Stress Level (Excluding no reading days)", #title
+    x = "Stress Level", #xaxis
+    y = "Pace(Pages per Hour)" #yaxis
   ) +
-  theme_minimal() +
-  theme(legend.position = "none")
+  theme_minimal() + #clean background
+  theme(legend.position = "none") #remove legend
 ```
 
 ## 1C. Caption
 **Figure: Reading Pace by Stress Level (Excluding Days with No Reading)**
 
-This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. During days of low stress levels there is high variability and highest median pace; days of high stress consistently read fewer pages per hour than medium stress level days with a more compressed range. The trend suggests that increased stress might negatively affect reading pace and consistency but the large range of pace during low stress days .
+This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. The stress levels are distinguished on the x axis and by color with turquoise on the low stress level box plot, yellow on the medium stress level, and coral on the high stress level. The bold black line inside the box represents the group's median and just by looking at medians, there is a correlation between higher pace and lower stress levels. However, then looking at the rest of the box, with the top and bottom representing the 1st and 3rd quartiles and the whiskers representing minimum and maximum, there is too much overlap between groups to draw significant conclusions just from the graph. The range, or height of the box, shows us that during days of low stress levels there is high variability but days of high stress have a more compressed range and consistently read fewer pages per hour than medium stress level days. 
 
 ## 1D. Table Presentation
 ```{r}

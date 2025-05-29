@@ -124,9 +124,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>1. Personal Data</h1>
 <section id="a.-data-summarizing" class="level2">
 <h2 class="anchored" data-anchor-id="a.-data-summarizing">1A. Data Summarizing</h2>
-<p>The main thing that I want to look at from my data is how stress levels affect my reading.</p>
-<p>I will analyze my reading pace by dividing pages read by hours reading and compare this to my quantified daily stress level, which I calculated based on the number of upcoming assignments and tests as well as my perceived stress, to see if stress influences the pace that I read.</p>
-<p>To summarize my data, I will calculate the median and range reading pace across different stress levels (low, medium, high stress) to see if stress impacts not just how fast I read within these stress levels, but also how much variation there is. Comparing medians and range through boxplots within stress levels is informative because it is a simple way to see if there is a difference between how different stress levels affect me and how consistently they affect me. I may read less efficiently when I feel overwhelmed, or I may quicker when trying to avoid stress through a calming activity; I may consistently read faster in low stress levels or .</p>
+<p>The main thing that I want to look at from my data is how stress levels affect the pace of my reading.</p>
+<p>I will analyze my reading pace by dividing ‘pages read’ by ‘hours reading’ and compare this to ‘quantified daily stress level’, which I calculated based on the number of upcoming assignments and tests as well as my perceived stress, to see if stress influences the pace that I read.</p>
+<p>To summarize my data, I will calculate the median and range of my reading pace across different stress levels (low, medium, high stress) to see if stress impacts not just how fast I read within these stress levels, but also how much variation there is. Comparing medians and range through boxplots within stress levels is informative because it is a simple way to visualize if there is a difference between how different stress levels affect me and how consistently they affect me. I may read less efficiently when I feel overwhelmed, or I may read quicker when trying to avoid stress through a calming activity. I may consistently read faster in high stress levels or it could fluctuate more in higher stress levels. Median and Range could answer these questions.</p>
 <section id="cleaning-data" class="level4">
 <h4 class="anchored" data-anchor-id="cleaning-data">cleaning data</h4>
 <div class="cell">
@@ -152,17 +152,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="b.-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="b.-visualization">1B. Visualization</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(stress_level), <span class="sc">!</span><span class="fu">is.na</span>(pace), pace <span class="sc">!=</span> <span class="dv">0</span>),</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> stress_level, <span class="at">y =</span> pace, <span class="at">fill =</span> stress_level)) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"low"</span> <span class="ot">=</span> <span class="st">"rosybrown1"</span>, <span class="st">"medium"</span> <span class="ot">=</span> <span class="st">"salmon"</span>, <span class="st">"high"</span> <span class="ot">=</span> <span class="st">"indianred4"</span>)) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(pace <span class="sc">!=</span> <span class="dv">0</span>),<span class="co">#removes anywhere pace is 0(meaning i didnt read that day)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> stress_level, <span class="at">y =</span> pace, <span class="at">fill =</span> stress_level)) <span class="sc">+</span><span class="co">#sets x and y and colors based on stress level</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span><span class="co">#makes boxplot</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"low"</span> <span class="ot">=</span> <span class="st">"turquoise"</span>, <span class="st">"medium"</span> <span class="ot">=</span> <span class="st">"#FFFF66"</span>, <span class="st">"high"</span> <span class="ot">=</span> <span class="st">"coral"</span>)) <span class="sc">+</span><span class="co">#manually inputs colors</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Reading Pace by Stress Level (Excluding no reading days)"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Stress Level"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Pace(Pages per Hour)"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Reading Pace by Stress Level (Excluding no reading days)"</span>, <span class="co">#title</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Stress Level"</span>, <span class="co">#xaxis</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Pace(Pages per Hour)"</span> <span class="co">#yaxis</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="co">#clean background</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="co">#remove legend</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -175,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="c.-caption" class="level2">
 <h2 class="anchored" data-anchor-id="c.-caption">1C. Caption</h2>
 <p><strong>Figure: Reading Pace by Stress Level (Excluding Days with No Reading)</strong></p>
-<p>This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. During days of low stress levels there is high variability and highest median pace; days of high stress consistently read fewer pages per hour than medium stress level days with a more compressed range. The trend suggests that increased stress might negatively affect reading pace and consistency but the large range of pace during low stress days .</p>
+<p>This boxplot shows the distribution of reading pace, measured in pages per hour, across three calculated stress levels: low, medium, and high. The stress levels are distinguished on the x axis and by color with turquoise on the low stress level box plot, yellow on the medium stress level, and coral on the high stress level. The bold black line inside the box represents the group’s median and just by looking at medians, there is a correlation between higher pace and lower stress levels. However, then looking at the rest of the box, with the top and bottom representing the 1st and 3rd quartiles and the whiskers representing minimum and maximum, there is too much overlap between groups to draw significant conclusions just from the graph. The range, or height of the box, shows us that during days of low stress levels there is high variability but days of high stress have a more compressed range and consistently read fewer pages per hour than medium stress level days.</p>
 </section>
 <section id="d.-table-presentation" class="level2">
 <h2 class="anchored" data-anchor-id="d.-table-presentation">1D. Table Presentation</h2>
@@ -203,23 +203,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q3 =</span> <span class="st">"3rd Quartile"</span>,</span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max=</span> <span class="st">"Maximum"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="frsynztqol" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#frsynztqol table {
+<div id="yvodqdopvb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yvodqdopvb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#frsynztqol thead, #frsynztqol tbody, #frsynztqol tfoot, #frsynztqol tr, #frsynztqol td, #frsynztqol th {
+#yvodqdopvb thead, #yvodqdopvb tbody, #yvodqdopvb tfoot, #yvodqdopvb tr, #yvodqdopvb td, #yvodqdopvb th {
   border-style: none;
 }
 
-#frsynztqol p {
+#yvodqdopvb p {
   margin: 0;
   padding: 0;
 }
 
-#frsynztqol .gt_table {
+#yvodqdopvb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -245,12 +245,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#frsynztqol .gt_caption {
+#yvodqdopvb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#frsynztqol .gt_title {
+#yvodqdopvb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -262,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#frsynztqol .gt_subtitle {
+#yvodqdopvb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -274,7 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#frsynztqol .gt_heading {
+#yvodqdopvb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -286,13 +286,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#frsynztqol .gt_bottom_border {
+#yvodqdopvb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#frsynztqol .gt_col_headings {
+#yvodqdopvb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -307,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#frsynztqol .gt_col_heading {
+#yvodqdopvb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -327,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#frsynztqol .gt_column_spanner_outer {
+#yvodqdopvb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -339,15 +339,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#frsynztqol .gt_column_spanner_outer:first-child {
+#yvodqdopvb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#frsynztqol .gt_column_spanner_outer:last-child {
+#yvodqdopvb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#frsynztqol .gt_column_spanner {
+#yvodqdopvb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -359,11 +359,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#frsynztqol .gt_spanner_row {
+#yvodqdopvb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#frsynztqol .gt_group_heading {
+#yvodqdopvb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -389,7 +389,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#frsynztqol .gt_empty_group_heading {
+#yvodqdopvb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -404,15 +404,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#frsynztqol .gt_from_md > :first-child {
+#yvodqdopvb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#frsynztqol .gt_from_md > :last-child {
+#yvodqdopvb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#frsynztqol .gt_row {
+#yvodqdopvb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -431,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#frsynztqol .gt_stub {
+#yvodqdopvb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -444,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#frsynztqol .gt_stub_row_group {
+#yvodqdopvb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -458,15 +458,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#frsynztqol .gt_row_group_first td {
+#yvodqdopvb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#frsynztqol .gt_row_group_first th {
+#yvodqdopvb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#frsynztqol .gt_summary_row {
+#yvodqdopvb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -476,16 +476,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#frsynztqol .gt_first_summary_row {
+#yvodqdopvb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#frsynztqol .gt_first_summary_row.thick {
+#yvodqdopvb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#frsynztqol .gt_last_summary_row {
+#yvodqdopvb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -495,7 +495,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#frsynztqol .gt_grand_summary_row {
+#yvodqdopvb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -505,7 +505,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#frsynztqol .gt_first_grand_summary_row {
+#yvodqdopvb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -515,7 +515,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#frsynztqol .gt_last_grand_summary_row_top {
+#yvodqdopvb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -525,11 +525,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#frsynztqol .gt_striped {
+#yvodqdopvb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#frsynztqol .gt_table_body {
+#yvodqdopvb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -538,7 +538,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#frsynztqol .gt_footnotes {
+#yvodqdopvb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -552,7 +552,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#frsynztqol .gt_footnote {
+#yvodqdopvb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -561,7 +561,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#frsynztqol .gt_sourcenotes {
+#yvodqdopvb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -575,7 +575,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#frsynztqol .gt_sourcenote {
+#yvodqdopvb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -583,72 +583,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#frsynztqol .gt_left {
+#yvodqdopvb .gt_left {
   text-align: left;
 }
 
-#frsynztqol .gt_center {
+#yvodqdopvb .gt_center {
   text-align: center;
 }
 
-#frsynztqol .gt_right {
+#yvodqdopvb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#frsynztqol .gt_font_normal {
+#yvodqdopvb .gt_font_normal {
   font-weight: normal;
 }
 
-#frsynztqol .gt_font_bold {
+#yvodqdopvb .gt_font_bold {
   font-weight: bold;
 }
 
-#frsynztqol .gt_font_italic {
+#yvodqdopvb .gt_font_italic {
   font-style: italic;
 }
 
-#frsynztqol .gt_super {
+#yvodqdopvb .gt_super {
   font-size: 65%;
 }
 
-#frsynztqol .gt_footnote_marks {
+#yvodqdopvb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#frsynztqol .gt_asterisk {
+#yvodqdopvb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#frsynztqol .gt_indent_1 {
+#yvodqdopvb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#frsynztqol .gt_indent_2 {
+#yvodqdopvb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#frsynztqol .gt_indent_3 {
+#yvodqdopvb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#frsynztqol .gt_indent_4 {
+#yvodqdopvb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#frsynztqol .gt_indent_5 {
+#yvodqdopvb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#frsynztqol .katex-display {
+#yvodqdopvb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#frsynztqol div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yvodqdopvb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
