@@ -2,8 +2,10 @@
 title: "homework_03"
 author: "Sanjana Sujeet"
 date: "2025-05-28"
-format: html
-#output: html_document
+format:
+  html:
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, message=FALSE}
